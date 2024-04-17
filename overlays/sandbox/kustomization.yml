@@ -1,0 +1,7 @@
+resources:
+- ../base
+namePrefix: sandbox-
+patches:
+- path: deployment.yml
+  target:
+    kind: Deployment

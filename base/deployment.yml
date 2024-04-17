@@ -1,0 +1,63 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: whoami
+  labels:
+    app: whoami
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: whoami
+  template:
+    metadata:
+      labels:
+        app: whoami
+    spec:
+      containers:
+        - name: whoami
+          image: traefik/whoami
+          ports:
+            - name: web
+              containerPort: 80
+          volumeMounts:
+          - mountPath: "/usr/share/volume-workload-1"
+            name: whoamipvtest
+          - mountPath: "/usr/share/volume-workload-1-warm"
+            name: whoamipvtest-warm
+      volumes:
+        - name: whoamipvtest
+          persistentVolumeClaim:
+            claimName: whoamipvtest-claim
+        - name: whoamipvtest-warm
+          persistentVolumeClaim:
+            claimName: whoamipvtest-claim-warm
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: whoamipvtest-claim-warm
+  labels:
+    app: whoami
+spec:
+  storageClassName: harvester-warm
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: whoamipvtest-claim
+  labels:
+    app: whoami
+spec:
+  storageClassName: harvester
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
