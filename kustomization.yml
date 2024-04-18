@@ -1,2 +1,2 @@
-resources:
+bases:
 - overlays/dev
