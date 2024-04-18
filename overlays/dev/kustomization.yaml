@@ -2,6 +2,6 @@ resources:
 - ../../base
 namePrefix: dev-
 patches:
-- path: deployment.yml
+- path: deployment.yaml
   target:
     kind: Deployment

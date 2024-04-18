@@ -2,6 +2,6 @@ resources:
 - ../base
 namePrefix: sandbox-
 patches:
-- path: deployment.yml
+- path: deployment.yaml
   target:
     kind: Deployment
